@@ -5,7 +5,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params).save
+    if user_params[:password] == user_params[:password_confirmation]
+      @user = User.create(user_params)
+      session[:user_id] = @user.id 
+      redirect to :welcome 
+    else 
+      redirect_to :new_user
+    end 
   end
 
   private
